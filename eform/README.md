@@ -47,11 +47,6 @@ sudo ufw allow 443/tcp
 sudo ufw allow from any to any port 8080 proto tcp
 ```
 
-### Izinkan akses ke port 8084
-``` bash
-sudo ufw allow from any to any port 8084 proto tcp
-```
-
 ### Aktifkan UFW
 ``` bash
 sudo ufw enable
@@ -85,54 +80,46 @@ To                         Action      From
 
 # PENYIAPAN WEB SERVER
 
-## Instal Java Oracle v17
-Tambahkan Repository untuk Java
+## Instal Java Oracle v8
+
+Unduh Java 8 dari link berikut : https://www.oracle.com/java/technologies/downloads/#java8
+
+Masukkan hasil unduhan ke dalam server dengan FTP ataupun WinSCP.
+
+Atau dapat unduh dari web berikut:
 ``` bash
-sudo add-apt-repository ppa:linuxuprising/java
+wget katigatechno.com/jdk/jdk-8u431-linux-x64.tar.gz
 ```
 
-Apabila muncul pemberitahuan seperti ini, tekan ENTER
+Kemudian ekstrak dengan cara berikut:
+``` bash
+sudo tar xvf jdk-8u431-linux-x64.tar.gz --directory /usr/lib/jvm/
+```
+
+Selanjutnya setting default JAVA
 ``` yaml
-Repository: 'deb https://ppa.launchpadcontent.net/linuxuprising/java/ubuntu/ jammy main'
-Description:
-Oracle Java 11 (LTS) and 17 (LTS) installer for Ubuntu (21.10, 21.04, 20.04, 18.04, 16.04 and 14.04), Pop!_OS, Linux Mint and Debian.
+root@eform:/usr/lib/jvm/jdk1.8.0_431# sudo update-alternatives --config java
+There are 2 choices for the alternative java (providing /usr/bin/java).
 
-Java binaries are not hosted in this PPA due to licensing. The packages in this PPA download and install Oracle Java, so a working Internet connection is required.
+  Selection    Path                                            Priority   Status
+------------------------------------------------------------
+* 0            /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java   1081      auto m                                                                  ode
+  1            /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java   1081      manual                                                                   mode
+  2            /usr/lib/jvm/jdk1.8.0_431/bin/java               1         manual                                                                   mode
 
-The packages in this PPA are based on the WebUpd8 Oracle Java PPA packages: https://launchpad.net/~webupd8team/+archive/ubuntu/java
+Press <enter> to keep the current choice[*], or type selection number: 2
 
-Installation instructions (with some tips), feedback, suggestions, bug reports etc.:
+root@eform:/usr/lib/jvm/jdk1.8.0_431# sudo update-alternatives --config javac
+There are 2 choices for the alternative javac (providing /usr/bin/javac).
 
-Oracle Java 11: https://www.linuxuprising.com/2019/06/new-oracle-java-11-installer-for-ubuntu.html
-Oracle Java 17: https://www.linuxuprising.com/2021/09/how-to-install-oracle-java-17-lts-on.html
+  Selection    Path                                         Priority   Status
+------------------------------------------------------------
+* 0            /usr/lib/jvm/java-8-openjdk-amd64/bin/javac   1081      auto mode
+  1            /usr/lib/jvm/java-8-openjdk-amd64/bin/javac   1081      manual mo                                                                  de
+  2            /usr/lib/jvm/jdk1.8.0_431/bin/javac           1         manual mo                                                                  de
 
-Important notice regarding Oracle Java 11 and 16: the Oracle JDK license has changed starting April 16, 2019. The new license permits certain uses, such as personal use and development use, at no cost -- but other uses authorized under prior Oracle JDK licenses may no longer be available. A FAQ is available here: https://www.oracle.com/technetwork/java/javase/overview/oracle-jdk-faqs.html . After this change, new Oracle Java 11 releases (11.0.3 and newer) require signing in using an Oracle account to download the binaries. This PPA has a new installer that requires the user to download the Oracle JDK 11 .tar.gz and place it in a folder, and only then install the "oracle-java11-installer-local" package. Details here:  https://www.linuxuprising.com/2019/06/new-oracle-java-11-installer-for-ubuntu.html
-
-For Oracle Java 17, the license has changed, stating that JDK 17 binaries are free to use in production and free to redistribute, at no cost, under the Oracle No-Fee Terms and Conditions License.
-
-About Oracle Java 10, 12, 13, 14, 15 and 16: These versions have reached the end of public updates, therefore they are longer available for download. The Oracle Java 10/12/13/14/15 packages in this PPA no longer worked due to this, so I have removed them. Switch to Oracle Java 17 or OpenJDK 17 instead, which is long term support.
-
-Created for users of https://www.linuxuprising.com/
-.
-More info: https://launchpad.net/~linuxuprising/+archive/ubuntu/java
-Adding repository.
-Press [ENTER] to continue or Ctrl-c to cancel.
+Press <enter> to keep the current choice[*], or type selection number: 2
 ```
-
-``` bash
-sudo apt update
-sudo apt install oracle-java17-installer -y 
-```
-
-Jika muncul tampilan seperti ini, pilih OK.
-
-![Oracle Java](screenshots/01-Oracle-Java.png)
-
-
-Jika muncul tampilan seperti ini, pilih Yes.
-
-![Oracle Java](screenshots/02-Oracle-No-Fee.png)
-
 
 ``` bash
 sudo apt install oracle-java17-set-default -y
@@ -145,9 +132,9 @@ java -version
 ```
 
 ``` yaml
-java version "17.0.6" 2023-01-17 LTS
-Java(TM) SE Runtime Environment (build 17.0.6+9-LTS-190)
-Java HotSpot(TM) 64-Bit Server VM (build 17.0.6+9-LTS-190, mixed mode, sharing)
+java version "1.8.0_431"
+Java(TM) SE Runtime Environment (build 1.8.0_431-b10)
+Java HotSpot(TM) 64-Bit Server VM (build 25.431-b10, mixed mode)
 ```
 
 ## Instal Tomcat 9
@@ -219,16 +206,14 @@ Using CATALINA_TMPDIR: /usr/share/tomcat9/temp
 Using JRE_HOME:        /usr
 Using CLASSPATH:       /usr/share/tomcat9/bin/bootstrap.jar:/usr/share/tomcat9/bin/tomcat-juli.jar
 Using CATALINA_OPTS:
-NOTE: Picked up JDK_JAVA_OPTIONS:  --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.io=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.util.concurrent=ALL-UNNAMED --add-opens=java.rmi/sun.rmi.transport=ALL-UNNAMED
 Server version: Apache Tomcat/9.0.58 (Ubuntu)
 Server built:   Jan 6 1970 15:09:28 UTC
 Server number:  9.0.58.0
 OS Name:        Linux
 OS Version:     5.15.0-46-generic
 Architecture:   amd64
-JVM Version:    17.0.6+9-LTS-190
+JVM Version:    1.8.0_431-b10
 JVM Vendor:     Oracle Corporation
-
 ```
 
 ## Akses Tomcat
@@ -612,14 +597,52 @@ Untuk import DB pertama kali dari hasil backup:
 
 # BUILD
 
+Lakukan build di perangkat client (bukan Server), dalam contoh ini menggunakan Windows 11 x64.
+
+## Persiapan JDK
+
+Install Java SE Development Kit 8u202 (bukan OpenJDK) dapat diunduh pada situs resmi berikut:
+https://www.oracle.com/id/java/technologies/javase/javase8-archive-downloads.html 
+
+Setelah terunduh, lakukan instalasi seperti biasa.
+
+
+## Persiapan Tomcat
+
+Install Tomcat versi 9 yang dapat diunduh pada situs resmi berikut:
+https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.98/bin/apache-tomcat-9.0.98-windows-x64.zip
+
+Setelah terunduh, extract zip Tomcat dan pindahkan ke drive misalnya : C:\apache-tomcat-9.0.98
+
+
 ## Persiapan Netbeans
 
-Buka Source Code di Netbeans, jika belum punya, silahkan unduh di : https://archive.apache.org/dist/netbeans/netbeans-installers/23/Apache-NetBeans-23-bin-windows-x64.exe
+Buka Netbeans, jika belum punya silahkan unduh di : https://archive.apache.org/dist/netbeans/netbeans-installers/23/Apache-NetBeans-23-bin-windows-x64.exe
 
-Cara buka source code : 
+Konfigurasi Tomcat 9 di Netbeans dengan cara :
+1. Klik Tools
+2. Pilih Servers
+3. Klik tombol Add Server
+4. Choose Server: Apache Tomcat or TomEE, klik Next
+5. Pada Installation and Login Details, pilih lokasi Tomcat sebelumnya (misal: C:\apache-tomcat-9.0.98)
+6. Masukkan credential Tomcat, dan jika belum pernah dibuat centang pada Create user if it does not exist.
+7. Klik Finish
+
+![Tomcat](screenshots/15-Tomcat.png)
+
+Pastikan pada Tab Platform yang terpilih adalah Java 8 (1.8) :
+
+![JDK8](screenshots/16-JDK8.png)
+
+
+## Source Code
+
+Clone Coding dari Github berikut : https://github.com/Neocomdatasistem/E-Form
+
+Buka Source Code diNetbeans dengan cara : 
 1. Klik File
 2. Open Project
-3. Pilih Project Folder (Source Code)
+3. Pilih semua Project Folder (Source Code)
 4. Klik tombol Open Project
 
 ![Netbeans](screenshots/09-Netbeans1.png)
@@ -648,9 +671,55 @@ Untuk build file .WAR klik tombol Clean and Build
 
 ![Build](screenshots/13-Build.png)
 
+Hasil Build :
+1. CONT: Source\eForm.web\target\bukiloss.war
+2. API: Source\eForm.api\dist\bukilossapi.war
+3. WEB: Source\eForm.app\dist\bukilossapp.war
+
+# PRODUCTION
+
+## Sesuaikan MST NODE
+
+Jalankan Query ini di Database, sesuaikan dengan nama host dan port dari web apps, jika di lokal dapat diisi dengan localhost.
+``` sql
+UPDATE public.application_mst_node SET target_ip='vm-eform.cloud:8080';
+```
+
+
+## Unggah Berkas .WAR
+
+Buka Tomcat Manager di Web Server Production : http://vm-eform.cloud:8080/manager/html
+
+Login dengan akun Tomcat yang sudah dikonfig di server sebelumnya.
+
+Pada bagian WAR file to deploy upload berkas .WAR yang telah dibuild sebelumnya. Setelah itu klik Deploy.
+
+Ulangi untuk .WAR lainnya.
+
+![Tomcat](screenshots/17-Tomcat.png)
+
+Jika tidak berhasil, maka lakukan ini : 
+
+``` bash
+git clone https://github.com/Neocomdatasistem/WAR /tmp/WAR-repo
+sudo mv /tmp/WAR-repo/*.war /var/lib/tomcat9/webapps/
+sudo chown tomcat:tomcat /var/lib/tomcat9/webapps/*.war
+sudo chmod 644 /var/lib/tomcat9/webapps/*.war
+```
+
+Pastikan sudah terunggah semua di Tomcat Server, lalu klik tombol START.
+![Tomcat](screenshots/01-Tomcat.png)
+
+Aplikasi versi WEB telah selesai dideploy.
+
+
+# ANDROID
+
+
+
 # REFERENSI
 * https://www.digitalocean.com/community/tutorials/how-to-set-up-a-firewall-with-ufw-on-ubuntu
-* https://bluevps.com/blog/how-to-install-java-on-ubuntu
+* https://www.liquidweb.com/blog/how-to-install-oracle-java-8-in-ubuntu-16-04/
 * https://medium.com/@madhavarajas1997/installing-apache-tomcat-on-ubuntu-22-04-08c8eda52312
 * https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-22-04
 * https://www.kamatera.com/knowledgebase/how-to-secure-nginx-with-lets-encrypt/
