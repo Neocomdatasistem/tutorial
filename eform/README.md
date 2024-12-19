@@ -80,49 +80,32 @@ To                         Action      From
 
 # PENYIAPAN WEB SERVER
 
-## Instal Java Oracle v8
+## Instal Java Oracle v11
 
-Unduh Java 8 dari link berikut : https://www.oracle.com/java/technologies/downloads/#java8
+Unduh Java 8 dari link berikut : https://www.oracle.com/java/technologies/downloads/#java11
 
 Masukkan hasil unduhan ke dalam server dengan FTP ataupun WinSCP.
 
 Atau dapat unduh dari web berikut:
 ``` bash
-wget katigatechno.com/jdk/jdk-8u431-linux-x64.tar.gz
+wget katigatechno.com/jdk/jdk-11.0.25_linux-x64_bin.tar.gz
 ```
 
 Kemudian ekstrak dengan cara berikut:
 ``` bash
-sudo tar xvf jdk-8u431-linux-x64.tar.gz --directory /usr/lib/jvm/
+sudo tar xvf jdk-11.0.25_linux-x64_bin.tar.gz --directory /usr/lib/jvm/
 ```
 
-Selanjutnya setting default JAVA
+Selanjutnya daftarkan JAVA
 ``` yaml
-root@eform:/usr/lib/jvm/jdk1.8.0_431# sudo update-alternatives --config java
-There are 2 choices for the alternative java (providing /usr/bin/java).
-
-  Selection    Path                                            Priority   Status
-------------------------------------------------------------
-* 0            /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java   1081      auto m                                                                  ode
-  1            /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java   1081      manual                                                                   mode
-  2            /usr/lib/jvm/jdk1.8.0_431/bin/java               1         manual                                                                   mode
-
-Press <enter> to keep the current choice[*], or type selection number: 2
-
-root@eform:/usr/lib/jvm/jdk1.8.0_431# sudo update-alternatives --config javac
-There are 2 choices for the alternative javac (providing /usr/bin/javac).
-
-  Selection    Path                                         Priority   Status
-------------------------------------------------------------
-* 0            /usr/lib/jvm/java-8-openjdk-amd64/bin/javac   1081      auto mode
-  1            /usr/lib/jvm/java-8-openjdk-amd64/bin/javac   1081      manual mo                                                                  de
-  2            /usr/lib/jvm/jdk1.8.0_431/bin/javac           1         manual mo                                                                  de
-
-Press <enter> to keep the current choice[*], or type selection number: 2
+sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/jdk-11.0.25/bin/java 1
+sudo update-alternatives --install /usr/bin/javac javac /usr/lib/jvm/jdk-11.0.25/bin/javac 1
 ```
 
-``` bash
-sudo apt install oracle-java17-set-default -y
+Selanjutnya update default JAVA (Jika ada selain JDK 11 di Server)
+``` yaml
+sudo update-alternatives --config java
+sudo update-alternatives --config javac
 ```
 
 ## Cek Versi Java
@@ -132,9 +115,9 @@ java -version
 ```
 
 ``` yaml
-java version "1.8.0_431"
-Java(TM) SE Runtime Environment (build 1.8.0_431-b10)
-Java HotSpot(TM) 64-Bit Server VM (build 25.431-b10, mixed mode)
+java version "11.0.25" 2024-10-15 LTS
+Java(TM) SE Runtime Environment 18.9 (build 11.0.25+9-LTS-256)
+Java HotSpot(TM) 64-Bit Server VM 18.9 (build 11.0.25+9-LTS-256, mixed mode)
 ```
 
 ## Instal Tomcat 9
@@ -206,13 +189,14 @@ Using CATALINA_TMPDIR: /usr/share/tomcat9/temp
 Using JRE_HOME:        /usr
 Using CLASSPATH:       /usr/share/tomcat9/bin/bootstrap.jar:/usr/share/tomcat9/bin/tomcat-juli.jar
 Using CATALINA_OPTS:
+NOTE: Picked up JDK_JAVA_OPTIONS:  --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.io=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.util.concurrent=ALL-UNNAMED --add-opens=java.rmi/sun.rmi.transport=ALL-UNNAMED
 Server version: Apache Tomcat/9.0.58 (Ubuntu)
 Server built:   Jan 6 1970 15:09:28 UTC
 Server number:  9.0.58.0
 OS Name:        Linux
 OS Version:     5.15.0-46-generic
 Architecture:   amd64
-JVM Version:    1.8.0_431-b10
+JVM Version:    11.0.25+9-LTS-256
 JVM Vendor:     Oracle Corporation
 ```
 
