@@ -585,8 +585,8 @@ Lakukan build di perangkat client (bukan Server), dalam contoh ini menggunakan W
 
 ## Persiapan JDK
 
-Install Java SE Development Kit 8u202 (bukan OpenJDK) dapat diunduh pada situs resmi berikut:
-https://www.oracle.com/id/java/technologies/javase/javase8-archive-downloads.html 
+Install Java SE Development Kit 11 dapat diunduh pada situs resmi berikut:
+https://download.oracle.com/otn/java/jdk/11.0.24%2B7/21cffd70ff1e41a3a5ef9898f46e442d/jdk-11.0.24_windows-x64_bin.exe
 
 Setelah terunduh, lakukan instalasi seperti biasa.
 
@@ -601,7 +601,7 @@ Setelah terunduh, extract zip Tomcat dan pindahkan ke drive misalnya : C:\apache
 
 ## Persiapan Netbeans
 
-Buka Netbeans, jika belum punya silahkan unduh di : https://archive.apache.org/dist/netbeans/netbeans-installers/23/Apache-NetBeans-23-bin-windows-x64.exe
+Buka Netbeans, jika belum punya silahkan unduh di : https://archive.apache.org/dist/netbeans/netbeans-installers/19/Apache-NetBeans-19-bin-windows-x64.exe
 
 Konfigurasi Tomcat 9 di Netbeans dengan cara :
 1. Klik Tools
@@ -614,7 +614,7 @@ Konfigurasi Tomcat 9 di Netbeans dengan cara :
 
 ![Tomcat](screenshots/15-Tomcat.png)
 
-Pastikan pada Tab Platform yang terpilih adalah Java 8 (1.8) :
+Pastikan pada Tab Platform yang terpilih adalah Java 11 :
 
 ![JDK8](screenshots/16-JDK8.png)
 
