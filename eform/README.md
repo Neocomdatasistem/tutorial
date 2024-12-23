@@ -176,6 +176,20 @@ Created symlink /etc/systemd/system/multi-user.target.wants/tomcat9.service → 
 ```
 
 
+## Setting JAVA HOME
+
+``` bash
+sudo nano /etc/default/tomcat9
+```
+
+``` yaml
+# The home directory of the Java development kit (JDK). You need at least
+# JDK version 8. If JAVA_HOME is not set, some common directories for
+# OpenJDK and the Oracle JDK are tried.
+JAVA_HOME="/usr/lib/jvm/jdk-11.0.25"
+```
+
+
 ## Cek Versi Tomcat
 
 ``` bash
@@ -416,10 +430,31 @@ server {
     index index.html index.htm index.nginx-debian.html index.php;
 
     server_name vm-eform.cloud www.vm-eform.cloud;
+    
+    # Reverse Proxy untuk bukiloss
+    location /bukiloss {
+        proxy_pass http://127.0.0.1:8080/bukiloss;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+		proxy_set_header X-Forwarded-Port 443;
+        proxy_redirect http://127.0.0.1:8080/ https://vm-eform.cloud/;
+    }
 
-    # Reverse Proxy untuk aplikasi di Tomcat (http://203.194.112.2:8080/eform)
-    location /eform {
-        proxy_pass http://203.194.112.2:8080/eform;  # Mengarah ke aplikasi di Tomcat
+    # Reverse Proxy untuk bukilossapi
+    location /bukilossapi {
+        proxy_pass http://127.0.0.1:8080/bukilossapi;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_redirect off;
+    }
+
+    # Reverse Proxy untuk bukilossapp
+    location /bukilossapp {
+        proxy_pass http://127.0.0.1:8080/bukilossapp;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -446,6 +481,20 @@ server {
     server_name vm-eform.cloud www.vm-eform.cloud;
     return 404; # managed by Certbot
 }
+```
+
+Cek konfigurasi benar atau tidaknya:
+``` bash
+sudo nginx -t
+```
+
+``` yaml
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+```
+
+``` bash
+sudo systemctl reload nginx
 ```
 
 # PENYIAPAN DATABASE
