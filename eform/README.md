@@ -426,11 +426,11 @@ sudo nano /etc/nginx/sites-available/vm-eform.cloud
 
 ``` bash
 server {
-    root /var/www/vm-eform.cloud/html;
-    index index.html index.htm index.nginx-debian.html index.php;
+    listen 80;
+    listen [::]:80;
 
     server_name vm-eform.cloud www.vm-eform.cloud;
-    
+
     # Reverse Proxy untuk bukiloss
     location /bukiloss {
         proxy_pass http://127.0.0.1:8080/bukiloss;
@@ -438,8 +438,8 @@ server {
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
-		proxy_set_header X-Forwarded-Port 443;
-        proxy_redirect http://127.0.0.1:8080/ https://vm-eform.cloud/;
+        proxy_set_header X-Forwarded-Port 443;
+        proxy_redirect http://127.0.0.1:8080/ http://vm-eform.cloud/;
     }
 
     # Reverse Proxy untuk bukilossapi
@@ -449,7 +449,8 @@ server {
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_redirect off;
+        proxy_set_header X-Forwarded-Port 443;
+        proxy_redirect http://127.0.0.1:8080/ http://vm-eform.cloud/;
     }
 
     # Reverse Proxy untuk bukilossapp
@@ -459,27 +460,9 @@ server {
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_redirect off;
+        proxy_set_header X-Forwarded-Port 443;
+        proxy_redirect http://127.0.0.1:8080/ http://vm-eform.cloud/;
     }
-
-    listen [::]:443 ssl ipv6only=on; # managed by Certbot
-    listen 443 ssl; # managed by Certbot
-    ssl_certificate /etc/letsencrypt/live/vm-eform.cloud/fullchain.pem; # managed by Certbot
-    ssl_certificate_key /etc/letsencrypt/live/vm-eform.cloud/privkey.pem; # managed by Certbot
-    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
-    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
-}
-
-server {
-    if ($host = vm-eform.cloud) {
-        return 301 https://$host$request_uri;
-    } # managed by Certbot
-
-    listen 80;
-    listen [::]:80;
-
-    server_name vm-eform.cloud www.vm-eform.cloud;
-    return 404; # managed by Certbot
 }
 ```
 
