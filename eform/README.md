@@ -729,6 +729,14 @@ Pastikan sudah terunggah semua di Tomcat Server, lalu klik tombol START.
 Aplikasi versi WEB telah selesai dideploy.
 
 
+# Login
+
+## BCRYPT
+
+Password dienskripsi menggunakan BCRYPT 10x. Jika lupa password, coba reset menggunakan BCRYPT online 
+
+![Bcrypt](screenshots/18-Bcrypt.png)
+
 # ANDROID
 
 
