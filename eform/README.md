@@ -655,7 +655,7 @@ Pastikan pada Tab Platform yang terpilih adalah Java 11 :
 
 Clone Coding dari Github berikut : https://github.com/Neocomdatasistem/E-Form
 
-Buka Source Code diNetbeans dengan cara : 
+Buka Source Code di Netbeans dengan cara : 
 1. Klik File
 2. Open Project
 3. Pilih semua Project Folder (Source Code)
@@ -728,17 +728,72 @@ Pastikan sudah terunggah semua di Tomcat Server, lalu klik tombol START.
 
 Aplikasi versi WEB telah selesai dideploy.
 
+# ANDROID
 
-# Login
+## Persiapan
+
+- Instalasi Flutter : https://docs.flutter.dev/get-started/install
+- Visual Studio Code : https://code.visualstudio.com/sha/download?build=stable&os=win32-x64-user
+- JDK 17 : https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html
+- Android Studio : https://redirector.gvt1.com/edgedl/android/studio/install/2024.2.1.12/android-studio-2024.2.1.12-windows.exe
+
+``` bash
+PS C:\eForm.mob> flutter doctor   
+Doctor summary (to see all details, run flutter doctor -v):
+[√] Flutter (Channel stable, 3.27.1, on Microsoft Windows [Version 10.0.26100.2605], locale en-IN)
+[√] Windows Version (Installed version of Windows is version 10 or higher)
+[√] Android toolchain - develop for Android devices (Android SDK version 34.0.0)
+[√] Chrome - develop for the web
+[√] Visual Studio - develop Windows apps (Visual Studio Community 2019 16.11.35)
+[√] Android Studio (version 2023.2)
+[√] VS Code (version 1.96.2)
+[√] Connected device (3 available)
+[√] Network resources
+
+• No issues found!
+```
+
+``` bash
+PS C:\eForm.mob> java -version
+java version "17.0.12" 2024-07-16 LTS
+Java(TM) SE Runtime Environment (build 17.0.12+8-LTS-286)
+Java HotSpot(TM) 64-Bit Server VM (build 17.0.12+8-LTS-286, mixed mode, sharing)
+```
+
+
+## Source Code
+
+Clone Coding dari Github berikut : https://github.com/Neocomdatasistem/E-Form-Mobile
+
+Buka Source Code di Visual Studio Code: 
+1. Klik File Open Folder
+2. Pilih Repository yang telah diclone dari Git
+3. Jika muncul kotak dialog pilih Yes, I trust the authors.
+
+Selanjutnya buka file eForm.mob\lib\maindart\common_function.dart
+
+Atur alamat IP sesuai dengan IP Server API berada.
+
+Untuk build APK dapat menjalankan perintah berikut:
+
+``` bash
+flutter Clean
+flutter pub get
+flutter build apk
+```
+
+![VS](screenshots/19-VS.png)
+
+
+Hasil build : eForm.mob\build\app\outputs\flutter-apk\
+
+# LOGIN
 
 ## BCRYPT
 
 Password dienskripsi menggunakan BCRYPT 10x. Jika lupa password, coba reset menggunakan BCRYPT online 
 
 ![Bcrypt](screenshots/18-Bcrypt.png)
-
-# ANDROID
-
 
 
 # REFERENSI
