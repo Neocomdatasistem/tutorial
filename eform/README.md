@@ -599,6 +599,10 @@ Jika belum punya toolsnya, silahkan download pada Link resmi berikut : https://f
 * Save Password? Enable (Opsional) 
 3. Klik tombol SAVE
 
+
+Unduh DB Backup berikut : [DB](DB/dump-eform_db-202410041446.sql)
+
+
 ![PgAdmin](screenshots/06-PgAdmin.png)
 
 Untuk import DB pertama kali dari hasil backup:
